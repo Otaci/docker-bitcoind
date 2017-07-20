@@ -9,7 +9,7 @@ fi
 
 # allow the container to be started with `--user`
 if [ "$1" = 'btc_oneshot' -a "$(id -u)" = '0' ]; then
-	chown -R bitcoin .
+#	chown -R bitcoin .
 	exec gosu bitcoin "$0" "$@"
 fi
 
