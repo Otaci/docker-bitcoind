@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# generate a bunch of blocks
+
+# wait for bitcoin to be up
+until [ "`bitcoin-cli getblockcount`" == "0" ]; do
+  sleep 0.1;
+done;
+
+bitcoin-cli generate 1000
+
