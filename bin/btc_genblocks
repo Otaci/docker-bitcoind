@@ -3,7 +3,7 @@
 # generate a bunch of blocks
 
 # wait for bitcoin to be up
-until [ "`bitcoin-cli getblockcount`" == "0" ]; do
+until [ "`bitcoin-cli getblockcount 2>/dev/null`" == "0" ]; do
   sleep 0.1;
 done;
 
