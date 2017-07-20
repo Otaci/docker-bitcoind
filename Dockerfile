@@ -34,11 +34,18 @@ RUN set -x \
 	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
 	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
-	&& gosu nobody true \
-	&& apt-get purge -y \
-		ca-certificates \
-		wget \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	&& gosu nobody true 
+
+# install cpuminer
+RUN cd /usr/local/bin  \
+        && wget https://github.com/pooler/cpuminer/releases/download/v2.5.0/pooler-cpuminer-2.5.0-linux-x86_64.tar.gz \
+        && zcat pooler-cpuminer-2.5.0-linux-x86_64.tar.gz | tar x  \
+        && rm pooler-cpuminer-2.5.0-linux-x86_64.tar.gz \
+        && apt-get purge -y \
+                ca-certificates \
+                wget \
+        && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 ADD ./bin /usr/local/bin
 
