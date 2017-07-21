@@ -2,6 +2,11 @@ FROM ubuntu:xenial
 MAINTAINER Otaci <otaci@protonmail.com>
 # based on https://hub.docker.com/r/kylemanna/bitcoind/ by Kyle Manna <kyle@kylemanna.com>
 
+# TODO:
+#	- consolidate apt-get install
+#	- clean up apt-get and /tmp, /var/tmp
+#	- different base? python image?
+
 ARG USER_ID
 ARG GROUP_ID
 
@@ -45,7 +50,7 @@ RUN cd /usr/local/bin  \
 
 # install eloipool
 RUN cd /usr/local \
-        && apt-get install git python3 python3-pip \
+        && apt-get -y --no-install-recommends install git python3 python3-pip python3-setuptools \
 	&& pip3 install --upgrade pip \
 	&& pip3 install python-bitcoinrpc python-bitcoinlib json-rpc base58 \
 	&& git clone https://github.com/luke-jr/eloipool.git \
