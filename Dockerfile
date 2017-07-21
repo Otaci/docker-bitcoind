@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
-MAINTAINER Kyle Manna <kyle@kylemanna.com>
+MAINTAINER Otaci <otaci@protonmail.com>
+# based on https://hub.docker.com/r/kylemanna/bitcoind/ by Kyle Manna <kyle@kylemanna.com>
 
 ARG USER_ID
 ARG GROUP_ID
@@ -40,12 +41,15 @@ RUN set -x \
 RUN cd /usr/local/bin  \
         && wget https://github.com/pooler/cpuminer/releases/download/v2.5.0/pooler-cpuminer-2.5.0-linux-x86_64.tar.gz \
         && zcat pooler-cpuminer-2.5.0-linux-x86_64.tar.gz | tar x  \
-        && rm pooler-cpuminer-2.5.0-linux-x86_64.tar.gz \
-        && apt-get purge -y \
-                ca-certificates \
-                wget \
-        && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+        && rm pooler-cpuminer-2.5.0-linux-x86_64.tar.gz 
 
+# install eloipool
+RUN cd /usr/local \
+        && apt-get install git python3 python3-pip \
+	&& pip3 install --upgrade pip \
+	&& pip3 install python-bitcoinrpc python-bitcoinlib json-rpc base58 \
+	&& git clone https://github.com/luke-jr/eloipool.git \
+	&& chown -R bitcoin:bitcoin /usr/local/eloipool
 
 ADD ./bin /usr/local/bin
 
